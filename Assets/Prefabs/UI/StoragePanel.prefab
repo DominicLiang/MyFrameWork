@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 6810579412849135798}
   - component: {fileID: 6401997629560222028}
   m_Layer: 5
-  m_Name: InventoryPanel
+  m_Name: StoragePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,7 +133,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 7
+  m_AdditionalShaderChannelsFlag: -1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -190,7 +190,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 144b9601a175cdd4faead94762ff604e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reallyToSelect: {fileID: 0}
   slotCount: 72
+  isBackpack: 0
+  otherStoragePanel: {fileID: 0}
 --- !u!1 &4386941288339726161
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.0000038146973}
+  m_AnchoredPosition: {x: -70, y: 0.0000038146973}
   m_SizeDelta: {x: 698.291, y: 782.3057}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7201221759996060015

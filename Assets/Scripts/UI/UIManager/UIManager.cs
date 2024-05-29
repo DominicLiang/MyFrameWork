@@ -43,25 +43,23 @@ public class UIManager
         openedPanelDic = new Dictionary<PanelID, GameObject>();
     }
 
-    public bool OpenPanel(PanelID id)
+    public bool OpenPanel(PanelID id, out GameObject panel)
     {
-        if (openedPanelDic.ContainsKey(id))
-        {
-            Debug.LogError($"界面已经打开: {id}");
-            return false;
-        }
+        if (openedPanelDic.TryGetValue(id, out panel)) return false;
 
-        if (!cachedPanelDic.TryGetValue(id, out GameObject panelPrefab))
+        if (!cachedPanelDic.TryGetValue(id, out panel))
         {
             var handle = Addressables.LoadAssetAsync<GameObject>(id.ToString());
-            var panelObject = Object.Instantiate(handle.WaitForCompletion(), UIRoot, false);
-            cachedPanelDic.Add(id, panelObject);
-            openedPanelDic.Add(id, panelObject);
+
+            panel = Object.Instantiate(handle.WaitForCompletion(), UIRoot);
+
+            cachedPanelDic.Add(id, panel);
+            openedPanelDic.Add(id, panel);
         }
         else
         {
-            panelPrefab.SetActive(true);
-            openedPanelDic.Add(id, panelPrefab);
+            panel.SetActive(true);
+            openedPanelDic.Add(id, panel);
         }
 
         return true;
@@ -69,11 +67,7 @@ public class UIManager
 
     public bool ClosePanel(PanelID id)
     {
-        if (!openedPanelDic.TryGetValue(id, out GameObject openedPanel))
-        {
-            Debug.LogError($"界面未打开: {id}");
-            return false;
-        }
+        if (!openedPanelDic.TryGetValue(id, out GameObject openedPanel)) return false;
 
         openedPanel.SetActive(false);
         openedPanelDic.Remove(id);

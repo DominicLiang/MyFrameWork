@@ -9,6 +9,7 @@ public class ItemData
     public string itemName;
     public string icon;
     public string description;
+    public int maxCarry;
     public int buyPrice;
     public int sellPrice;
 }

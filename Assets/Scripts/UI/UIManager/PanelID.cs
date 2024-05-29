@@ -1,4 +1,7 @@
 public enum PanelID
 {
-    InventoryPanel,
+    TestPanel,
+    StoragePanel,
+    BackpackPanel,
+    TooltipPanel,
 }

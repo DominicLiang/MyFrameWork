@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: d5abca7b345e262439728a79e8845d5a
   m_SerializeEntries:
   - m_GUID: c15f90d1d9dcaa744837d58800db4b01
-    m_Address: InventoryPanel
+    m_Address: StoragePanel
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -34,6 +34,21 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52a7dbc5b7ada63468e64194b6068d63
     m_Address: ItemDatabase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5bec910eb3e585040a3a3fdc7f0e54bc
+    m_Address: BackpackPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 825bfa390ebc3b2449538e1db4076fc7
+    m_Address: TooltipPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7b334d4880bf68489133e8525e75414
+    m_Address: TestPanel
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -14,17 +14,92 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items:
   - id: 1
+    itemType: 1
+    rare: 2
     itemName: "\u4E00\u628A\u5251"
     icon: BG 6_84
+    description: "\u8FD9\u662F\u4E00\u628A\u5251"
+    maxCarry: 1
+    buyPrice: 500
+    sellPrice: 100
   - id: 2
+    itemType: 1
+    rare: 1
     itemName: "\u4E8C\u5200\u6D41"
     icon: BG 6_89
+    description: "\u6B22\u8FCE\u4F7F\u7528\u4E8C\u5200\u6D41"
+    maxCarry: 1
+    buyPrice: 500
+    sellPrice: 100
   - id: 3
+    itemType: 1
+    rare: 3
     itemName: "\u4E00\u628A\u65A7\u5934"
     icon: BG 6_91
+    description: "\u8FD9\u662F\u4E00\u628A\u65A7\u5934"
+    maxCarry: 1
+    buyPrice: 500
+    sellPrice: 100
   - id: 4
+    itemType: 1
+    rare: 5
     itemName: "\u56DE\u529B\u9556"
     icon: BG 6_102
+    description: "\u8FD9\u662F\u4E00\u4E2A\u56DE\u529B\u9556"
+    maxCarry: 1
+    buyPrice: 500
+    sellPrice: 100
   - id: 5
+    itemType: 1
+    rare: 7
     itemName: "\u4E00\u4EF6\u94E0\u7532"
     icon: BG 6_117
+    description: "\u8FD9\u662F\u4E00\u4EF6\u94E0\u7532"
+    maxCarry: 1
+    buyPrice: 500
+    sellPrice: 100
+  - id: 6
+    itemType: 0
+    rare: 1
+    itemName: "\u7EA2\u836F\u6C34"
+    icon: BG 6_144
+    description: "\u8FD9\u662F\u4E00\u74F6\u7EA2\u836F\u6C34"
+    maxCarry: 20
+    buyPrice: 100
+    sellPrice: 10
+  - id: 7
+    itemType: 0
+    rare: 1
+    itemName: "\u84DD\u836F\u6C34"
+    icon: BG 6_145
+    description: "\u8FD9\u662F\u4E00\u74F6\u84DD\u836F\u6C34"
+    maxCarry: 20
+    buyPrice: 100
+    sellPrice: 10
+  - id: 8
+    itemType: 2
+    rare: 5
+    itemName: "\u4E66"
+    icon: BG 6_211
+    description: "\u8FD9\u662F\u4E00\u672C\u4E66"
+    maxCarry: 99
+    buyPrice: 100
+    sellPrice: 10
+  - id: 9
+    itemType: 2
+    rare: 2
+    itemName: "\u4FE1\u5C01"
+    icon: BG 6_217
+    description: "\u8FD9\u662F\u4E00\u4E2A\u4FE1\u5C01"
+    maxCarry: 99
+    buyPrice: 100
+    sellPrice: 10
+  - id: 10
+    itemType: 2
+    rare: 7
+    itemName: "\u82F9\u679C"
+    icon: BG 6_224
+    description: "\u8FD9\u662F\u4E00\u4E2A\u82F9\u679C"
+    maxCarry: 99
+    buyPrice: 100
+    sellPrice: 10

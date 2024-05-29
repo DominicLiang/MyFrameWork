@@ -1,30 +1,38 @@
-using System.Collections.Generic;
+using System.Collections;
+using QFramework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UISlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandler, ISubmitHandler
 {
+    public Item item;
+
     private Image icon;
+    private Image background;
     private TextMeshProUGUI count;
 
-    private Item item;
-    private UIInventoryPanel parent;
+    private UIStoragePanel parent;
+
+    private bool isSelected;
 
     private void Awake()
     {
         icon = transform.Find("Icon").GetComponent<Image>();
+        background = transform.Find("Background").GetComponent<Image>();
         count = transform.Find("CountText").GetComponent<TextMeshProUGUI>();
-        parent = GetComponentInParent<UIInventoryPanel>();
+        parent = GetComponentInParent<UIStoragePanel>();
+
+        isSelected = true;
     }
 
     public void Refresh(Item item)
     {
         this.item = item;
 
-        if (item != null)
+        if (item != null && item.count > 0)
         {
             var spriteId = item.itemData.icon.Split('_');
             var handle = Addressables.LoadAssetAsync<Sprite[]>(spriteId[0]);
@@ -40,13 +48,55 @@ public class UISlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void Selected(bool isSelected)
     {
-        parent.SelectedItem = item;
+        if (this.isSelected == isSelected) return;
+        if (isSelected)
+        {
+            this.isSelected = true;
+            if (item.count > 0) icon.color = Color.white;
+            background.color = Color.white;
+            count.color = Color.white;
+        }
+        else
+        {
+            this.isSelected = false;
+            if (item.count > 0) icon.color = Color.gray;
+            background.color = Color.gray;
+            count.color = Color.gray;
+        }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnSelect(BaseEventData eventData)
     {
-        parent.SelectedItem = null;
+        background.color = Color.green;
+        parent.SelectedItem = item;
+
+        GetComponentInParent<UIStoragePanel>().NextSelect = gameObject;
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        background.color = Color.white;
+    }
+
+    public void OnSubmit(BaseEventData eventData)
+    {
+        var parentPanel = GetComponentInParent<UIStoragePanel>();
+        if (item.itemData != null)
+        {
+            this.SendCommand(new StoreItemCommand(item.itemData.id, item.count, parentPanel.isBackpack));
+        }
+        else
+        {
+            parentPanel.Selected(false);
+            parentPanel.otherStoragePanel.Selected(true);
+            parentPanel.otherStoragePanel.SetSelectedGameObject(parentPanel.otherStoragePanel.reallyToSelect);
+        }
+    }
+
+    public IArchitecture GetArchitecture()
+    {
+        return App.Interface;
     }
 }
