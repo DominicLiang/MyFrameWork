@@ -28,7 +28,7 @@ public class UIStoragePanel : MonoBehaviour, IController
         {
             if (nextSelect == value) return;
             nextSelect = value;
-            otherStoragePanel.SetSelect(value);
+            otherStoragePanel.SetReallyToSelect(value);
         }
     }
 
@@ -86,15 +86,15 @@ public class UIStoragePanel : MonoBehaviour, IController
 
         if (isBackpack)
         {
-            SetNavigation(4, 5, 15);
+            SetNavigation(4, 15);
         }
         else
         {
-            SetNavigation(7, 8, 64);
+            SetNavigation(7, 64);
         }
     }
 
-    private void SetNavigation(int right, int rightPlus, int upDown)
+    private void SetNavigation(int right, int up)
     {
         var leftIndex = 0;
         var rightIndex = right;
@@ -106,21 +106,21 @@ public class UIStoragePanel : MonoBehaviour, IController
 
             if (i + 1 < slots.Length) nav.selectOnRight = slots[i + 1].GetComponent<Button>();
             if (i - 1 >= 0) nav.selectOnLeft = slots[i - 1].GetComponent<Button>();
-            if (i - rightPlus >= 0) nav.selectOnUp = slots[i - rightPlus].GetComponent<Button>();
-            if (i + rightPlus < slots.Length) nav.selectOnDown = slots[i + rightPlus].GetComponent<Button>();
+            if (i - (right + 1) >= 0) nav.selectOnUp = slots[i - (right + 1)].GetComponent<Button>();
+            if (i + right + 1 < slots.Length) nav.selectOnDown = slots[i + right + 1].GetComponent<Button>();
 
             if (i == rightIndex)
             {
-                rightIndex += rightPlus;
+                rightIndex += right + 1;
                 nav.selectOnRight = slots[i - right].GetComponent<Button>();
             }
             if (i == leftIndex && i + right < slots.Length)
             {
-                leftIndex += rightPlus;
+                leftIndex += right + 1;
                 nav.selectOnLeft = slots[i + right].GetComponent<Button>();
             }
-            if (i <= right) nav.selectOnUp = slots[i + upDown].GetComponent<Button>();
-            if (i >= upDown) nav.selectOnDown = slots[i - upDown].GetComponent<Button>();
+            if (i <= right) nav.selectOnUp = slots[i + up].GetComponent<Button>();
+            if (i >= up) nav.selectOnDown = slots[i - up].GetComponent<Button>();
 
             button.navigation = nav;
         }
@@ -164,7 +164,7 @@ public class UIStoragePanel : MonoBehaviour, IController
         }
     }
 
-    public void SetSelect(GameObject next)
+    public void SetReallyToSelect(GameObject next)
     {
         Selected(false);
         var select = slots.FirstOrDefault(x =>

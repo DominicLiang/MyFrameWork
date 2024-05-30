@@ -37,7 +37,7 @@ public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandl
             var spriteId = item.itemData.icon.Split('_');
             var handle = Addressables.LoadAssetAsync<Sprite[]>(spriteId[0]);
             icon.sprite = handle.WaitForCompletion()[int.Parse(spriteId[1])];
-            icon.color = Color.white;
+            icon.color = isSelected ? Color.white : Color.gray;
             count.text = item.count.ToString();
         }
         else
@@ -69,10 +69,14 @@ public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandl
 
     public void OnSelect(BaseEventData eventData)
     {
-        background.color = Color.green;
-        parent.SelectedItem = item;
-
-        GetComponentInParent<UIStoragePanel>().NextSelect = gameObject;
+        StartCoroutine(WaitForFrameEnd());
+        IEnumerator WaitForFrameEnd()
+        {
+            yield return new WaitForEndOfFrame();
+            GetComponentInParent<UIStoragePanel>().NextSelect = gameObject;
+            background.color = Color.green;
+            parent.SelectedItem = item;
+        }
     }
 
     public void OnDeselect(BaseEventData eventData)
@@ -89,9 +93,9 @@ public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandl
         }
         else
         {
-            parentPanel.Selected(false);
-            parentPanel.otherStoragePanel.Selected(true);
             parentPanel.otherStoragePanel.SetSelectedGameObject(parentPanel.otherStoragePanel.reallyToSelect);
+            parentPanel.otherStoragePanel.Selected(true);
+            parentPanel.Selected(false);
         }
     }
 
