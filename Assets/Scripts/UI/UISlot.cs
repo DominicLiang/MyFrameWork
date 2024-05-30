@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using QFramework;
 using TMPro;
@@ -9,12 +10,13 @@ using UnityEngine.UI;
 public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandler, ISubmitHandler
 {
     public Item item;
+    public event Action<Item> OnSubmitEvent;
+    public event Action<UISlot> OnDestroyEvent;
+    public event Action<GameObject, Item> OnSelectEvent;
 
     private Image icon;
     private Image background;
     private TextMeshProUGUI count;
-
-    private UIStoragePanel parent;
 
     private bool isSelected;
 
@@ -23,7 +25,6 @@ public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandl
         icon = transform.Find("Icon").GetComponent<Image>();
         background = transform.Find("Background").GetComponent<Image>();
         count = transform.Find("CountText").GetComponent<TextMeshProUGUI>();
-        parent = GetComponentInParent<UIStoragePanel>();
 
         isSelected = true;
     }
@@ -73,9 +74,8 @@ public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandl
         IEnumerator WaitForFrameEnd()
         {
             yield return new WaitForEndOfFrame();
-            GetComponentInParent<UIStoragePanel>().NextSelect = gameObject;
+            OnSelectEvent?.Invoke(gameObject, item);
             background.color = Color.green;
-            parent.SelectedItem = item;
         }
     }
 
@@ -86,17 +86,12 @@ public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandl
 
     public void OnSubmit(BaseEventData eventData)
     {
-        var parentPanel = GetComponentInParent<UIStoragePanel>();
-        if (item.itemData != null)
-        {
-            this.SendCommand(new StoreItemCommand(item.itemData.id, item.count, parentPanel.isBackpack));
-        }
-        else
-        {
-            parentPanel.otherStoragePanel.SetSelectedGameObject(parentPanel.otherStoragePanel.reallyToSelect);
-            parentPanel.otherStoragePanel.Selected(true);
-            parentPanel.Selected(false);
-        }
+        OnSubmitEvent?.Invoke(item);
+    }
+
+    private void OnDestroy()
+    {
+        OnDestroyEvent?.Invoke(this);
     }
 
     public IArchitecture GetArchitecture()

@@ -1,25 +1,9 @@
-using System.Collections.Generic;
 using System.Linq;
 using QFramework;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-public class UIStoragePanel : MonoBehaviour, IController
+public class UIStoragePanel : UIStorageBasePanel, IController
 {
-    private Item selectedItem;
-    public Item SelectedItem
-    {
-        get => selectedItem;
-        set
-        {
-            if (selectedItem == value) return;
-            selectedItem = value;
-            RefreshToolTip();
-        }
-    }
-
     private GameObject nextSelect;
     public GameObject NextSelect
     {
@@ -28,130 +12,38 @@ public class UIStoragePanel : MonoBehaviour, IController
         {
             if (nextSelect == value) return;
             nextSelect = value;
-            otherStoragePanel.SetReallyToSelect(value);
+            OtherStoragePanel.SetReallyToSelect(value);
         }
     }
 
-    public int slotCount;
-    public bool isBackpack;
-    [HideInInspector]
-    public UIStoragePanel otherStoragePanel;
-    [HideInInspector]
-    public GameObject reallyToSelect;
-
-    private Transform slotRoot;
-    private Image background;
-    private GameObject slotPrefab;
-    private GameObject[] slots;
-    private List<Item> items;
-
-    private void Awake()
+    private UIStoragePanel otherStoragePanel;
+    public UIStoragePanel OtherStoragePanel
     {
-        slotRoot = transform.Find("Panel/SlotRoot");
-        background = transform.Find("Panel/Background").GetComponent<Image>();
-
-        var handle = Addressables.LoadAssetAsync<GameObject>("Slot");
-        slotPrefab = handle.WaitForCompletion();
-
-        slots = new GameObject[slotCount];
-        items = this.SendQuery(new GetAllItemQuery(isBackpack));
+        get
+        {
+            if (otherStoragePanel != null) return otherStoragePanel;
+            var id = isBackpack ? "Storage" : "Backpack";
+            var other = transform.parent.Find(id).GetComponent<UIStoragePanel>();
+            otherStoragePanel = other;
+            return otherStoragePanel;
+        }
     }
 
-    private void Start()
+    [HideInInspector]
+    public GameObject readyToSelect;
+
+    protected override void Start()
     {
-        InitSlots();
-        RefreshItem();
+        base.Start();
 
         if (isBackpack)
         {
             SetSelectedGameObject(slots[0]);
             Selected(true);
-            otherStoragePanel.Selected(false);
+            OtherStoragePanel.Selected(false);
         }
 
-        this.RegisterEvent<ItemChangeEvent>((e) =>
-        {
-            if (e.isBackpack != isBackpack) return;
-            RefreshItem();
-        }).UnRegisterWhenGameObjectDestroyed(this);
-    }
-
-    private void InitSlots()
-    {
-        for (int i = 0; i < slotCount; i++)
-        {
-            var slot = Instantiate(slotPrefab, slotRoot);
-            slots[i] = slot;
-        }
-
-        if (isBackpack)
-        {
-            SetNavigation(4, 15);
-        }
-        else
-        {
-            SetNavigation(7, 64);
-        }
-    }
-
-    private void SetNavigation(int right, int up)
-    {
-        var leftIndex = 0;
-        var rightIndex = right;
-        for (int i = 0; i < slots.Length; i++)
-        {
-            var button = slots[i].GetComponent<Button>();
-
-            var nav = new Navigation { mode = Navigation.Mode.Explicit };
-
-            if (i + 1 < slots.Length) nav.selectOnRight = slots[i + 1].GetComponent<Button>();
-            if (i - 1 >= 0) nav.selectOnLeft = slots[i - 1].GetComponent<Button>();
-            if (i - (right + 1) >= 0) nav.selectOnUp = slots[i - (right + 1)].GetComponent<Button>();
-            if (i + right + 1 < slots.Length) nav.selectOnDown = slots[i + right + 1].GetComponent<Button>();
-
-            if (i == rightIndex)
-            {
-                rightIndex += right + 1;
-                nav.selectOnRight = slots[i - right].GetComponent<Button>();
-            }
-            if (i == leftIndex && i + right < slots.Length)
-            {
-                leftIndex += right + 1;
-                nav.selectOnLeft = slots[i + right].GetComponent<Button>();
-            }
-            if (i <= right) nav.selectOnUp = slots[i + up].GetComponent<Button>();
-            if (i >= up) nav.selectOnDown = slots[i - up].GetComponent<Button>();
-
-            button.navigation = nav;
-        }
-    }
-
-    private void RefreshToolTip()
-    {
-        if (selectedItem != null && selectedItem.count > 0)
-        {
-            UIManager.Instance.OpenPanel(PanelID.TooltipPanel, out GameObject panel);
-            panel.GetComponent<UITooltipPanel>().Refresh(selectedItem);
-        }
-        else
-        {
-            UIManager.Instance.ClosePanel(PanelID.TooltipPanel);
-        }
-    }
-
-    public void RefreshItem()
-    {
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (i < items.Count)
-            {
-                slots[i].GetComponent<UISlot>().Refresh(items[i]);
-            }
-            else
-            {
-                slots[i].GetComponent<UISlot>().Refresh(null);
-            }
-        }
+        SetSlotOnSubmit();
     }
 
     public void Selected(bool isSelected)
@@ -176,18 +68,42 @@ public class UIStoragePanel : MonoBehaviour, IController
         });
         if (select == null) return;
         select.GetComponent<UISlot>().Selected(true);
-        reallyToSelect = select;
+        readyToSelect = select;
     }
 
-    public void SetSelectedGameObject(GameObject next)
+    private void SetSlotOnSubmit()
     {
-        if (next == null) next = slots[0];
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(next);
-    }
+        foreach (var slot in slots)
+        {
+            var uiSlot = slot.GetComponent<UISlot>();
+            uiSlot.OnSubmitEvent += SubmitEvent;
+            uiSlot.OnSelectEvent += SelectEvent;
+            uiSlot.OnDestroyEvent += (e) =>
+            {
+                e.OnSubmitEvent -= SubmitEvent;
+                e.OnSelectEvent -= SelectEvent;
+            };
+        }
 
-    public IArchitecture GetArchitecture()
-    {
-        return App.Interface;
+        void SubmitEvent(Item item)
+        {
+            if (item.itemData != null)
+            {
+                this.SendCommand(new StoreItemCommand(item.itemData.id, item.count, isBackpack));
+            }
+            else
+            {
+                OtherStoragePanel.SetSelectedGameObject(OtherStoragePanel.readyToSelect);
+                OtherStoragePanel.Selected(true);
+                Selected(false);
+            }
+        }
+
+        void SelectEvent(GameObject gameObject, Item item)
+        {
+            NextSelect = gameObject;
+            SelectedItem = item;
+        }
     }
 }
+

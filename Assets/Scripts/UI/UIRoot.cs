@@ -1,16 +1,21 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UIRoot : MonoBehaviour
 {
+    private InputAction start;
+
+    private void Awake()
+    {
+        var playerInput = GetComponent<PlayerInput>();
+        start = playerInput.actions.FindAction("Start");
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (start.triggered)
         {
-            UIManager.Instance.OpenPanel(PanelID.StoragePanel, out GameObject storagePanel);
-            UIManager.Instance.OpenPanel(PanelID.BackpackPanel, out GameObject backpackPanel);
-            UIManager.Instance.OpenPanel(PanelID.TestPanel, out GameObject testPanel);
-            storagePanel.GetComponent<UIStoragePanel>().otherStoragePanel = backpackPanel.GetComponent<UIStoragePanel>();
-            backpackPanel.GetComponent<UIStoragePanel>().otherStoragePanel = storagePanel.GetComponent<UIStoragePanel>();
+            UIManager.Instance.OpenPanel(PanelID.TestBottomPanel, out var panel);
         }
     }
 }

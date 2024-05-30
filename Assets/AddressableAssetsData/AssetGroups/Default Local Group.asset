@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: d5abca7b345e262439728a79e8845d5a
   m_SerializeEntries:
-  - m_GUID: c15f90d1d9dcaa744837d58800db4b01
-    m_Address: StoragePanel
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8d316fd471da649479f58e1e9390daab
     m_Address: Slot
     m_ReadOnly: 0
@@ -37,11 +32,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5bec910eb3e585040a3a3fdc7f0e54bc
-    m_Address: BackpackPanel
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 825bfa390ebc3b2449538e1db4076fc7
     m_Address: TooltipPanel
     m_ReadOnly: 0
@@ -49,6 +39,31 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a7b334d4880bf68489133e8525e75414
     m_Address: TestPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c15f90d1d9dcaa744837d58800db4b01
+    m_Address: StoragePanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5bec910eb3e585040a3a3fdc7f0e54bc
+    m_Address: BackpackPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dfb3fa84e4b699c40942ee3e972e8475
+    m_Address: StorageSubMenuPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f8d87269ed4bd8478ac0d0aa32b8037
+    m_Address: TestBottomPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eccb98b41443f654ba26116c3f5b847f
+    m_Address: BackpackSubMenuPanel
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

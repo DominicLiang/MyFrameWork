@@ -4,4 +4,10 @@ public enum PanelID
     StoragePanel,
     BackpackPanel,
     TooltipPanel,
+    SwitchNoticePanel,
+    StorageNoticePanel,
+    BackpackNoticePanel,
+    StorageSubMenuPanel,
+    BackpackSubMenuPanel,
+    TestBottomPanel
 }
