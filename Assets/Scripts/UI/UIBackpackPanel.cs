@@ -22,6 +22,12 @@ public class UIBackpackPanel : UIStorageBasePanel, IController
         SetupInput();
     }
 
+    private void OnEnable()
+    {
+        SetSelectedGameObject(slots[0]);
+        if (slots[0] != null) slots[0].GetComponent<UISlot>().OnSelect(null);
+    }
+
     private void SetupInput()
     {
         u.performed += (e) => OpenSubMenu();
@@ -63,6 +69,7 @@ public class UIBackpackPanel : UIStorageBasePanel, IController
                     hightLightSlot = go1.GetComponent<UISlot>();
                     hightLightSlot.SetSwapHighLight(true);
                     indexOne = Array.IndexOf(slots, go1);
+                    SelectedItem = null;
                     currentState = SelectItemTwo;
                     break;
                 case SelectItemTwo:
@@ -72,6 +79,7 @@ public class UIBackpackPanel : UIStorageBasePanel, IController
                     this.SendCommand(new SwapItemCommand(indexOne, indexTwo, true));
                     indexOne = -1;
                     hightLightSlot = null;
+                    SelectedItem = slots[indexTwo].GetComponent<UISlot>().item;
                     currentState = SelectItemOne;
                     break;
                 default:

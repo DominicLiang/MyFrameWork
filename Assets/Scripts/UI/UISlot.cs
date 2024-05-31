@@ -100,9 +100,10 @@ public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandl
 
     public void OnCancel(BaseEventData eventData)
     {
-        UIManager.Instance.ClosePanel(PanelID.BackpackPanel);
-        UIManager.Instance.ClosePanel(PanelID.TooltipPanel);
         UIManager.Instance.OpenPanel(PanelID.TestBottomPanel, out var panel);
+        UIManager.Instance.ClosePanel(PanelID.BackpackPanel);
+        UIManager.Instance.ClosePanel(PanelID.StoragePanel);
+        UIManager.Instance.ClosePanel(PanelID.TooltipPanel);
         OnCancelEvent?.Invoke(eventData);
     }
 

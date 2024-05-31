@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 
 public class UITestBottomPanel : MonoBehaviour
 {
@@ -22,15 +24,15 @@ public class UITestBottomPanel : MonoBehaviour
 
         openBackpack.OnSubmitEvent += (e) =>
         {
-            UIManager.Instance.ClosePanel(PanelID.StoragePanel);
             UIManager.Instance.OpenPanel(PanelID.BackpackPanel, out var panel);
+            UIManager.Instance.ClosePanel(PanelID.StoragePanel);
             UIManager.Instance.ClosePanel(PanelID.TestBottomPanel);
         };
 
         openStore.OnSubmitEvent += (e) =>
         {
-            UIManager.Instance.ClosePanel(PanelID.BackpackPanel);
             UIManager.Instance.OpenPanel(PanelID.StoragePanel, out var panel);
+            UIManager.Instance.ClosePanel(PanelID.BackpackPanel);
             UIManager.Instance.ClosePanel(PanelID.TestBottomPanel);
         };
 
@@ -51,6 +53,17 @@ public class UITestBottomPanel : MonoBehaviour
     private void OnEnable()
     {
         SetActiveButton();
+        openBackpack.Reset();
+        openStore.Reset();
+        openGM.Reset();
+        var inputModule = GetComponentInParent<UIRoot>().GetComponentInChildren<InputSystemUIInputModule>();
+        StartCoroutine(WaitForFrameEnd());
+        IEnumerator WaitForFrameEnd()
+        {
+            inputModule.enabled = false;
+            yield return new WaitForSeconds(0.01f);
+            inputModule.enabled = true;
+        }
     }
 
     private void SetActiveButton()

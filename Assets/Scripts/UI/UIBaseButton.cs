@@ -22,7 +22,13 @@ public class UIBaseButton : MonoBehaviour, ISelectHandler, IDeselectHandler, ISu
 
     private void Start()
     {
-        if (!isDefaultSelect) btnImage.color = Color.clear;
+        Reset();
+    }
+
+    public void Reset()
+    {
+        if (btnImage == null) return;
+        btnImage.color = isDefaultSelect ? Color.white : Color.clear;
     }
 
     public void OnSelect(BaseEventData eventData)

@@ -26,14 +26,23 @@ public class UIStoragePanel : UIStorageBasePanel, IController
 
         if (isBackpack)
         {
+            OtherStoragePanel.Selected(false);
             SetSelectedGameObject(slots[0]);
             Selected(true);
-            OtherStoragePanel.Selected(false);
         }
 
         SetSlotEvent();
 
         NextSelectEvent += () => OtherStoragePanel.SetReadyToSelect(NextSelect);
+    }
+
+    private void OnEnable()
+    {
+        if (isBackpack)
+        {
+            SetSelectedGameObject(slots[0]);
+            if (slots[0] != null) slots[0].GetComponent<UISlot>().OnSelect(null);
+        }
     }
 
     public void Selected(bool isSelected)

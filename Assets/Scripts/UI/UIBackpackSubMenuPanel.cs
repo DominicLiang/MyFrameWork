@@ -1,41 +1,44 @@
 using QFramework;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIBackpackSubMenuPanel : MonoBehaviour, IController
 {
-    private UIBaseButton btnBlend;
-    private UIBaseButton btnDrop;
+    private UIBaseButton blend;
+    private UIBaseButton drop;
 
     private Item item;
     private GameObject slot;
 
     private void Awake()
     {
-        btnBlend = transform.Find("Panel/Btn/BtnBlend").GetComponent<UIBaseButton>();
-        btnDrop = transform.Find("Panel/Btn/BtnDrop").GetComponent<UIBaseButton>();
+        blend = transform.Find("Panel/Btn/BtnBlend").GetComponent<UIBaseButton>();
+        drop = transform.Find("Panel/Btn/BtnDrop").GetComponent<UIBaseButton>();
     }
 
     private void Start()
     {
-        btnBlend.OnSubmitEvent += (e) =>
+        blend.OnSubmitEvent += (e) =>
         {
         };
 
-        btnDrop.OnSubmitEvent += (e) =>
+        drop.OnSubmitEvent += (e) =>
         {
             this.SendCommand(new SubItemCommand(item.itemData.id, item.count, true));
             ClosePanel();
         };
 
-        btnBlend.OnCancelEvent += (e) => ClosePanel();
-        btnDrop.OnCancelEvent += (e) => ClosePanel();
+        blend.OnCancelEvent += (e) => ClosePanel();
+        drop.OnCancelEvent += (e) => ClosePanel();
     }
 
     private void OnEnable()
     {
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(btnBlend.gameObject);
+        EventSystem.current.SetSelectedGameObject(blend.gameObject);
+        blend.Reset();
+        drop.Reset();
     }
 
     public void Setup(Item item, GameObject slot)
