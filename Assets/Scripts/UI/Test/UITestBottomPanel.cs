@@ -1,35 +1,40 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UITestBottomPanel : MonoBehaviour
 {
     private bool isTestPanelOpen;
 
-    private Button openBackpack;
-    private Button openStore;
-    private Button openGM;
+    private UIBaseButton openBackpack;
+    private UIBaseButton openStore;
+    private UIBaseButton openGM;
 
     private void Awake()
     {
-        openBackpack = transform.Find("Panel/Button/OpenBackpack").GetComponent<Button>();
-        openStore = transform.Find("Panel/Button/OpenStore").GetComponent<Button>();
-        openGM = transform.Find("Panel/Button/OpenGMPanel").GetComponent<Button>();
+        openBackpack = transform.Find("Panel/Button/OpenBackpack").GetComponent<UIBaseButton>();
+        openStore = transform.Find("Panel/Button/OpenStore").GetComponent<UIBaseButton>();
+        openGM = transform.Find("Panel/Button/OpenGMPanel").GetComponent<UIBaseButton>();
     }
 
     private void Start()
     {
         isTestPanelOpen = true;
-        openBackpack.onClick.AddListener(() =>
+
+        openBackpack.OnSubmitEvent += (e) =>
         {
             UIManager.Instance.ClosePanel(PanelID.StoragePanel);
             UIManager.Instance.OpenPanel(PanelID.BackpackPanel, out var panel);
-        });
-        openStore.onClick.AddListener(() =>
+            UIManager.Instance.ClosePanel(PanelID.TestBottomPanel);
+        };
+
+        openStore.OnSubmitEvent += (e) =>
         {
             UIManager.Instance.ClosePanel(PanelID.BackpackPanel);
             UIManager.Instance.OpenPanel(PanelID.StoragePanel, out var panel);
-        });
-        openGM.onClick.AddListener(() =>
+            UIManager.Instance.ClosePanel(PanelID.TestBottomPanel);
+        };
+
+        openGM.OnSubmitEvent += (e) =>
         {
             if (isTestPanelOpen)
             {
@@ -40,6 +45,17 @@ public class UITestBottomPanel : MonoBehaviour
                 UIManager.Instance.ClosePanel(PanelID.TestPanel);
             }
             isTestPanelOpen = !isTestPanelOpen;
-        });
+        };
+    }
+
+    private void OnEnable()
+    {
+        SetActiveButton();
+    }
+
+    private void SetActiveButton()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(openBackpack.gameObject);
     }
 }

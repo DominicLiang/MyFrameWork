@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class UIStoragePanel : UIStorageBasePanel, IController
 {
-    private GameObject nextSelect;
-    public GameObject NextSelect
-    {
-        get => nextSelect;
-        set
-        {
-            if (nextSelect == value) return;
-            nextSelect = value;
-            OtherStoragePanel.SetReallyToSelect(value);
-        }
-    }
-
     private UIStoragePanel otherStoragePanel;
     public UIStoragePanel OtherStoragePanel
     {
@@ -43,7 +31,9 @@ public class UIStoragePanel : UIStorageBasePanel, IController
             OtherStoragePanel.Selected(false);
         }
 
-        SetSlotOnSubmit();
+        SetSlotEvent();
+
+        NextSelectEvent += () => OtherStoragePanel.SetReadyToSelect(NextSelect);
     }
 
     public void Selected(bool isSelected)
@@ -56,7 +46,7 @@ public class UIStoragePanel : UIStorageBasePanel, IController
         }
     }
 
-    public void SetReallyToSelect(GameObject next)
+    public void SetReadyToSelect(GameObject next)
     {
         Selected(false);
         var select = slots.FirstOrDefault(x =>
@@ -71,21 +61,16 @@ public class UIStoragePanel : UIStorageBasePanel, IController
         readyToSelect = select;
     }
 
-    private void SetSlotOnSubmit()
+    private void SetSlotEvent()
     {
         foreach (var slot in slots)
         {
             var uiSlot = slot.GetComponent<UISlot>();
-            uiSlot.OnSubmitEvent += SubmitEvent;
-            uiSlot.OnSelectEvent += SelectEvent;
-            uiSlot.OnDestroyEvent += (e) =>
-            {
-                e.OnSubmitEvent -= SubmitEvent;
-                e.OnSelectEvent -= SelectEvent;
-            };
+            uiSlot.OnSubmitEvent += OnSubmitEvent;
+            uiSlot.OnDestroyEvent += (e) => e.OnSubmitEvent -= OnSubmitEvent;
         }
 
-        void SubmitEvent(Item item)
+        void OnSubmitEvent(Item item)
         {
             if (item.itemData != null)
             {
@@ -97,12 +82,6 @@ public class UIStoragePanel : UIStorageBasePanel, IController
                 OtherStoragePanel.Selected(true);
                 Selected(false);
             }
-        }
-
-        void SelectEvent(GameObject gameObject, Item item)
-        {
-            NextSelect = gameObject;
-            SelectedItem = item;
         }
     }
 }

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using QFramework;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIStorageBasePanel : MonoBehaviour, IController
@@ -19,15 +21,35 @@ public class UIStorageBasePanel : MonoBehaviour, IController
         }
     }
 
+    private GameObject nextSelect;
+    public GameObject NextSelect
+    {
+        get => nextSelect;
+        set
+        {
+            if (nextSelect == value) return;
+            nextSelect = value;
+            NextSelectEvent?.Invoke();
+        }
+    }
+
     public int rows;
     public int columns;
     public bool isBackpack;
+
+    public event Action<BaseEventData> OnPanelClosedEvent;
+
+    protected event Action NextSelectEvent;
 
     protected Transform slotRoot;
     protected Image background;
     protected GameObject slotPrefab;
     protected GameObject[] slots;
     protected List<Item> items;
+
+    protected InputAction k;
+    protected InputAction u;
+    protected InputAction i;
 
     protected virtual void Awake()
     {
@@ -39,6 +61,14 @@ public class UIStorageBasePanel : MonoBehaviour, IController
 
         slots = new GameObject[rows * columns];
         items = this.SendQuery(new GetAllItemQuery(isBackpack));
+
+        var playerInput = GetComponent<PlayerInput>();
+        if (playerInput)
+        {
+            k = playerInput.actions.FindAction("Cancel");
+            u = playerInput.actions.FindAction("X");
+            i = playerInput.actions.FindAction("Y");
+        }
     }
 
     protected virtual void Start()
@@ -59,9 +89,23 @@ public class UIStorageBasePanel : MonoBehaviour, IController
         {
             var slot = Instantiate(slotPrefab, slotRoot);
             slots[i] = slot;
+            var uiSlot = slot.GetComponent<UISlot>();
+            uiSlot.OnSelectEvent += OnSelectEvent;
+            uiSlot.OnCancelEvent += OnPanelClosedEvent;
+            uiSlot.OnDestroyEvent += (e) =>
+            {
+                e.OnSelectEvent -= OnSelectEvent;
+                e.OnCancelEvent -= OnPanelClosedEvent;
+            };
         }
 
         SetNavigation(columns - 1, rows * columns - columns);
+
+        void OnSelectEvent(GameObject gameObject, Item item)
+        {
+            NextSelect = gameObject;
+            SelectedItem = item;
+        }
     }
 
     protected void SetNavigation(int right, int up)

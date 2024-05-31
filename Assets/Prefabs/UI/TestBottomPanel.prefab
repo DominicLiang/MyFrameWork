@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 3423119563248160298}
   - component: {fileID: 2067196251343795111}
   - component: {fileID: 7426795815840623652}
+  - component: {fileID: 5189406754626541235}
   m_Layer: 5
   m_Name: OpenGMPanel
   m_TagString: Untagged
@@ -289,8 +290,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
-    m_WrapAround: 0
+    m_Mode: 1
+    m_WrapAround: 1
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -320,6 +321,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5189406754626541235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586345285573912534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d98ef950f3d60b419e3c150d68f2269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultSelect: 0
 --- !u!1 &1817370678152764570
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +689,7 @@ GameObject:
   - component: {fileID: 7599685370945783048}
   - component: {fileID: 6398554475837501163}
   - component: {fileID: 5001799712956262262}
+  - component: {fileID: 7529327317732605095}
   m_Layer: 5
   m_Name: OpenBackpack
   m_TagString: Untagged
@@ -753,8 +768,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
-    m_WrapAround: 0
+    m_Mode: 1
+    m_WrapAround: 1
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -784,6 +799,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7529327317732605095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911642993005336826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d98ef950f3d60b419e3c150d68f2269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultSelect: 1
 --- !u!1 &5076063725448249051
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,6 +861,7 @@ GameObject:
   - component: {fileID: 4600404512623625238}
   - component: {fileID: 5369146307811922678}
   - component: {fileID: 4049190875449657089}
+  - component: {fileID: 221554302240724847}
   m_Layer: 5
   m_Name: OpenStore
   m_TagString: Untagged
@@ -911,8 +940,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
-    m_WrapAround: 0
+    m_Mode: 1
+    m_WrapAround: 1
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -942,6 +971,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &221554302240724847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303562332551600092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d98ef950f3d60b419e3c150d68f2269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultSelect: 0
 --- !u!1 &7595860039713397650
 GameObject:
   m_ObjectHideFlags: 0

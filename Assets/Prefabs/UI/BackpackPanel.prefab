@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 912872902876326842}
+  - component: {fileID: 5061391438198774867}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -37,6 +38,14 @@ RectTransform:
   m_AnchoredPosition: {x: -678.86127, y: 210.38481}
   m_SizeDelta: {x: 444.5686, y: 361.5362}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5061391438198774867
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218155104258200962}
+  m_CullTransparentMesh: 1
 --- !u!1 &2255153825884279692
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +575,8 @@ GameObject:
   - component: {fileID: 4434697648304195473}
   - component: {fileID: 351251986714795118}
   - component: {fileID: 4762008612877715526}
+  - component: {fileID: 6587869624961256950}
+  - component: {fileID: 4652350160165546549}
   m_Layer: 5
   m_Name: Backpack
   m_TagString: Untagged
@@ -671,3 +682,41 @@ MonoBehaviour:
   rows: 4
   columns: 5
   isBackpack: 1
+--- !u!222 &6587869624961256950
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8584739134005208157}
+  m_CullTransparentMesh: 1
+--- !u!114 &4652350160165546549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8584739134005208157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 3c5a9a250b8c1d243a9ac52687316875, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: UI
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}

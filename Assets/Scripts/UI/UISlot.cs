@@ -7,18 +7,20 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandler, ISubmitHandler
+public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandler, ISubmitHandler, ICancelHandler
 {
     public Item item;
     public event Action<Item> OnSubmitEvent;
     public event Action<UISlot> OnDestroyEvent;
     public event Action<GameObject, Item> OnSelectEvent;
+    public event Action<BaseEventData> OnCancelEvent;
 
     private Image icon;
     private Image background;
     private TextMeshProUGUI count;
 
     private bool isSelected;
+    private bool isSwapping;
 
     private void Awake()
     {
@@ -68,6 +70,12 @@ public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandl
         }
     }
 
+    public void SetSwapHighLight(bool isHighLight)
+    {
+        isSwapping = isHighLight;
+        background.color = isHighLight ? Color.yellow : Color.white;
+    }
+
     public void OnSelect(BaseEventData eventData)
     {
         StartCoroutine(WaitForFrameEnd());
@@ -81,12 +89,21 @@ public class UISlot : MonoBehaviour, IController, ISelectHandler, IDeselectHandl
 
     public void OnDeselect(BaseEventData eventData)
     {
+        if (isSwapping) return;
         background.color = Color.white;
     }
 
     public void OnSubmit(BaseEventData eventData)
     {
         OnSubmitEvent?.Invoke(item);
+    }
+
+    public void OnCancel(BaseEventData eventData)
+    {
+        UIManager.Instance.ClosePanel(PanelID.BackpackPanel);
+        UIManager.Instance.ClosePanel(PanelID.TooltipPanel);
+        UIManager.Instance.OpenPanel(PanelID.TestBottomPanel, out var panel);
+        OnCancelEvent?.Invoke(eventData);
     }
 
     private void OnDestroy()
