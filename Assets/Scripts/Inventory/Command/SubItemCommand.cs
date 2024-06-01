@@ -5,14 +5,17 @@ public class SubItemCommand : AbstractCommand<int>
     private readonly int id;
     private readonly int num;
     private readonly bool isBackpack;
+    private readonly bool needSendEvent;
 
-    public SubItemCommand(int id, int num, bool isBackpack)
+    public SubItemCommand(int id, int num, bool isBackpack, bool needSendEvent)
     {
         this.id = id;
         this.num = num;
         this.isBackpack = isBackpack;
+        this.needSendEvent = needSendEvent;
     }
 
+    // 中文字体
     protected override int OnExecute()
     {
         var inventory = this.GetModel<IInventoryModel>();
@@ -28,7 +31,7 @@ public class SubItemCommand : AbstractCommand<int>
             itemToRemove.count = 0;
             itemToRemove.itemData = null;
 
-            this.SendEvent(new ItemChangeEvent(itemToRemove, isBackpack));
+            if (needSendEvent) this.SendEvent(new ItemChangeEvent(itemToRemove, isBackpack));
 
             return returnItem;
         }
@@ -36,7 +39,7 @@ public class SubItemCommand : AbstractCommand<int>
         {
             itemToRemove.count -= num;
 
-            this.SendEvent(new ItemChangeEvent(itemToRemove, isBackpack));
+            if (needSendEvent) this.SendEvent(new ItemChangeEvent(itemToRemove, isBackpack));
 
             return 0;
         }

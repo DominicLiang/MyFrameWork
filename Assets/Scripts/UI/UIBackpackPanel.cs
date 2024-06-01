@@ -22,16 +22,17 @@ public class UIBackpackPanel : UIStorageBasePanel, IController
         SetupInput();
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         SetSelectedGameObject(slots[0]);
         if (slots[0] != null) slots[0].GetComponent<UISlot>().OnSelect(null);
     }
 
     private void SetupInput()
     {
-        u.performed += (e) => OpenSubMenu();
-        i.performed += (e) => this.SendCommand(new SortItemCommand(true));
+        west.performed += (e) => OpenSubMenu();
+        north.performed += (e) => this.SendCommand(new SortItemCommand(true));
     }
 
     private void OpenSubMenu()

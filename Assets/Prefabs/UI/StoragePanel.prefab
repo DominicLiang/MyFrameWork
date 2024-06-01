@@ -711,7 +711,7 @@ MonoBehaviour:
   rows: 4
   columns: 5
   isBackpack: 1
-  reallyToSelect: {fileID: 0}
+  readyToSelect: {fileID: 0}
 --- !u!1 &2910821664764319402
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +964,7 @@ MonoBehaviour:
   rows: 9
   columns: 8
   isBackpack: 0
-  reallyToSelect: {fileID: 0}
+  readyToSelect: {fileID: 0}
 --- !u!1 &5274619438128957591
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,7 +1022,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 1
@@ -1423,7 +1423,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 1
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 1

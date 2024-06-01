@@ -5,12 +5,14 @@ public class AddItemCommand : AbstractCommand<int>
     private readonly int id;
     private readonly int num;
     private readonly bool isBackpack;
+    private readonly bool needSendEvent;
 
-    public AddItemCommand(int id, int num, bool isBackpack)
+    public AddItemCommand(int id, int num, bool isBackpack, bool needSendEvent)
     {
         this.id = id;
         this.num = num;
         this.isBackpack = isBackpack;
+        this.needSendEvent = needSendEvent;
     }
 
     protected override int OnExecute()
@@ -36,7 +38,7 @@ public class AddItemCommand : AbstractCommand<int>
             {
                 itemToAdd.count += num;
 
-                this.SendEvent(new ItemChangeEvent(itemToAdd, isBackpack));
+                if (needSendEvent) this.SendEvent(new ItemChangeEvent(itemToAdd, isBackpack));
 
                 return 0;
             }
@@ -45,7 +47,7 @@ public class AddItemCommand : AbstractCommand<int>
                 var returnItem = itemToAdd.count + num - itemToAdd.itemData.maxCarry;
                 itemToAdd.count = itemToAdd.itemData.maxCarry;
 
-                this.SendEvent(new ItemChangeEvent(itemToAdd, isBackpack));
+                if (needSendEvent) this.SendEvent(new ItemChangeEvent(itemToAdd, isBackpack));
 
                 return returnItem;
             }
@@ -54,7 +56,7 @@ public class AddItemCommand : AbstractCommand<int>
         {
             itemToAdd.count += num;
 
-            this.SendEvent(new ItemChangeEvent(itemToAdd, isBackpack));
+            if (needSendEvent) this.SendEvent(new ItemChangeEvent(itemToAdd, isBackpack));
 
             return 0;
         }

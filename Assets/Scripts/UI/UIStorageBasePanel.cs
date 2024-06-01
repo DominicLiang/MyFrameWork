@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 public class UIStorageBasePanel : MonoBehaviour, IController
@@ -48,9 +47,11 @@ public class UIStorageBasePanel : MonoBehaviour, IController
     protected GameObject[] slots;
     protected List<Item> items;
 
-    protected InputAction k;
-    protected InputAction u;
-    protected InputAction i;
+    private UIInputAction input;
+    protected InputAction west;
+    protected InputAction north;
+    protected InputAction leftShoulder;
+    protected InputAction rightShoulder;
 
     protected virtual void Awake()
     {
@@ -63,13 +64,21 @@ public class UIStorageBasePanel : MonoBehaviour, IController
         slots = new GameObject[rows * columns];
         items = this.SendQuery(new GetAllItemQuery(isBackpack));
 
-        var playerInput = GetComponent<PlayerInput>();
-        if (playerInput)
-        {
-            k = playerInput.actions.FindAction("Cancel");
-            u = playerInput.actions.FindAction("X");
-            i = playerInput.actions.FindAction("Y");
-        }
+        input = new UIInputAction();
+        west = input.FindAction("X");
+        north = input.FindAction("Y");
+        leftShoulder = input.FindAction("LeftShoulder");
+        rightShoulder = input.FindAction("RightShoulder");
+    }
+
+    protected virtual void OnEnable()
+    {
+        input.Enable();
+    }
+
+    protected virtual void OnDisable()
+    {
+        input.Disable();
     }
 
     protected virtual void Start()

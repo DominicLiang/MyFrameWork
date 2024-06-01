@@ -6,4 +6,5 @@ public interface IInventoryModel : IModel
     Dictionary<int, ItemData> ItemDatabase { get; }
     List<Item> Backpack { get; }
     List<Item> Storage { get; }
+    List<CustomItemList> CustomItemLists { get; }
 }

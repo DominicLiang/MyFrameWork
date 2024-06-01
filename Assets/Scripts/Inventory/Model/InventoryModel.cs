@@ -7,6 +7,7 @@ public class InventoryModel : AbstractModel, IInventoryModel
     public Dictionary<int, ItemData> ItemDatabase { get; private set; }
     public List<Item> Backpack { get; private set; }
     public List<Item> Storage { get; private set; }
+    public List<CustomItemList> CustomItemLists { get; private set; }
 
     protected override void OnInit()
     {
@@ -16,6 +17,12 @@ public class InventoryModel : AbstractModel, IInventoryModel
         foreach (var item in itemData)
         {
             ItemDatabase.Add(item.id, item);
+        }
+
+        CustomItemLists = new List<CustomItemList>();
+        for (int i = 0; i < 10; i++)
+        {
+            CustomItemLists.Add(new CustomItemList());
         }
 
         // todo FakeData must delete

@@ -1,13 +1,11 @@
 public enum PanelID
 {
     TestPanel,
-    StoragePanel,
+    TestBottomPanel,
     BackpackPanel,
-    TooltipPanel,
-    SwitchNoticePanel,
-    StorageNoticePanel,
-    BackpackNoticePanel,
-    StorageSubMenuPanel,
     BackpackSubMenuPanel,
-    TestBottomPanel
+    StoragePanel,
+    StorageSubMenuPanel,
+    TooltipPanel,
+    SetNumberPanel,
 }

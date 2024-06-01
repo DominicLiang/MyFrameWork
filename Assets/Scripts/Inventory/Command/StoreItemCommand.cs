@@ -15,8 +15,8 @@ public class StoreItemCommand : AbstractCommand
 
     protected override void OnExecute()
     {
-        var returnNum = this.SendCommand(new AddItemCommand(id, num, !isStore));
+        var returnNum = this.SendCommand(new AddItemCommand(id, num, !isStore, true));
         var subNum = num - returnNum;
-        this.SendCommand(new SubItemCommand(id, subNum, isStore));
+        this.SendCommand(new SubItemCommand(id, subNum, isStore, true));
     }
 }

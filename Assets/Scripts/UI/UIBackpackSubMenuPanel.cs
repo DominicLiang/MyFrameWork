@@ -1,7 +1,6 @@
 using QFramework;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class UIBackpackSubMenuPanel : MonoBehaviour, IController
 {
@@ -25,7 +24,11 @@ public class UIBackpackSubMenuPanel : MonoBehaviour, IController
 
         drop.OnSubmitEvent += (e) =>
         {
-            this.SendCommand(new SubItemCommand(item.itemData.id, item.count, true));
+            UIManager.Instance.OpenPanel(PanelID.SetNumberPanel, out var panel);
+            panel.GetComponent<UISetNumberPanel>().Setup(item, slot);
+            var panelTransform = panel.transform.Find("Panel").GetComponent<RectTransform>();
+            var targetTransform = panel.transform.Find("BackpackPosition").GetComponent<RectTransform>();
+            panelTransform.anchoredPosition = targetTransform.anchoredPosition;
             ClosePanel();
         };
 
@@ -51,7 +54,6 @@ public class UIBackpackSubMenuPanel : MonoBehaviour, IController
     {
         UIManager.Instance.ClosePanel(PanelID.BackpackSubMenuPanel);
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(slot);
     }
 
     public IArchitecture GetArchitecture()

@@ -20,6 +20,17 @@ public class UIStoragePanel : UIStorageBasePanel, IController
     [HideInInspector]
     public GameObject readyToSelect;
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        if (isBackpack)
+        {
+            if (slots[0] != null) slots[0].GetComponent<UISlot>().OnSelect(null);
+            SetSelectedGameObject(slots[0]);
+            Selected(true);
+        }
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -34,15 +45,29 @@ public class UIStoragePanel : UIStorageBasePanel, IController
         SetSlotEvent();
 
         NextSelectEvent += () => OtherStoragePanel.SetReadyToSelect(NextSelect);
-    }
 
-    private void OnEnable()
-    {
-        if (isBackpack)
+        leftShoulder.performed += (e) =>
         {
-            SetSelectedGameObject(slots[0]);
-            if (slots[0] != null) slots[0].GetComponent<UISlot>().OnSelect(null);
-        }
+            if (isBackpack) return;
+            OtherStoragePanel.SetSelectedGameObject(OtherStoragePanel.readyToSelect);
+            OtherStoragePanel.Selected(true);
+            Selected(false);
+        };
+
+        rightShoulder.performed += (e) =>
+        {
+            if (!isBackpack) return;
+            OtherStoragePanel.SetSelectedGameObject(OtherStoragePanel.readyToSelect);
+            OtherStoragePanel.Selected(true);
+            Selected(false);
+        };
+
+        north.performed += (e) =>
+        {
+            if (!isBackpack) return;
+
+            this.SendCommand(new SortItemCommand(background.color == Color.white));
+        };
     }
 
     public void Selected(bool isSelected)

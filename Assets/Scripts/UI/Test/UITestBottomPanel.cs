@@ -1,7 +1,5 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.UI;
 
 public class UITestBottomPanel : MonoBehaviour
 {
@@ -11,11 +9,15 @@ public class UITestBottomPanel : MonoBehaviour
     private UIBaseButton openStore;
     private UIBaseButton openGM;
 
+    private GameObject currentSelect;
+
     private void Awake()
     {
         openBackpack = transform.Find("Panel/Button/OpenBackpack").GetComponent<UIBaseButton>();
         openStore = transform.Find("Panel/Button/OpenStore").GetComponent<UIBaseButton>();
         openGM = transform.Find("Panel/Button/OpenGMPanel").GetComponent<UIBaseButton>();
+
+        currentSelect = openBackpack.gameObject;
     }
 
     private void Start()
@@ -27,6 +29,11 @@ public class UITestBottomPanel : MonoBehaviour
             UIManager.Instance.OpenPanel(PanelID.BackpackPanel, out var panel);
             UIManager.Instance.ClosePanel(PanelID.StoragePanel);
             UIManager.Instance.ClosePanel(PanelID.TestBottomPanel);
+
+            openBackpack.isDefaultSelect = true;
+            openStore.isDefaultSelect = false;
+            openGM.isDefaultSelect = false;
+            currentSelect = openBackpack.gameObject;
         };
 
         openStore.OnSubmitEvent += (e) =>
@@ -34,6 +41,11 @@ public class UITestBottomPanel : MonoBehaviour
             UIManager.Instance.OpenPanel(PanelID.StoragePanel, out var panel);
             UIManager.Instance.ClosePanel(PanelID.BackpackPanel);
             UIManager.Instance.ClosePanel(PanelID.TestBottomPanel);
+
+            openBackpack.isDefaultSelect = false;
+            openStore.isDefaultSelect = true;
+            openGM.isDefaultSelect = false;
+            currentSelect = openStore.gameObject;
         };
 
         openGM.OnSubmitEvent += (e) =>
@@ -47,6 +59,11 @@ public class UITestBottomPanel : MonoBehaviour
                 UIManager.Instance.ClosePanel(PanelID.TestPanel);
             }
             isTestPanelOpen = !isTestPanelOpen;
+
+            openBackpack.isDefaultSelect = false;
+            openStore.isDefaultSelect = false;
+            openGM.isDefaultSelect = true;
+            currentSelect = openGM.gameObject;
         };
     }
 
@@ -56,19 +73,11 @@ public class UITestBottomPanel : MonoBehaviour
         openBackpack.Reset();
         openStore.Reset();
         openGM.Reset();
-        var inputModule = GetComponentInParent<UIRoot>().GetComponentInChildren<InputSystemUIInputModule>();
-        StartCoroutine(WaitForFrameEnd());
-        IEnumerator WaitForFrameEnd()
-        {
-            inputModule.enabled = false;
-            yield return new WaitForSeconds(0.01f);
-            inputModule.enabled = true;
-        }
     }
 
     private void SetActiveButton()
     {
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(openBackpack.gameObject);
+        EventSystem.current.SetSelectedGameObject(currentSelect);
     }
 }

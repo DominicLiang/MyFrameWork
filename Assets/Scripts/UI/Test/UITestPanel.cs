@@ -27,14 +27,14 @@ public class UITestPanel : MonoBehaviour, IController
 
     private void Start()
     {
-        add1ToBackpack.onClick.AddListener(() => this.SendCommand(new AddItemCommand(1, 1, true)));
-        add2ToBackpack.onClick.AddListener(() => this.SendCommand(new AddItemCommand(2, 1, true)));
-        add1ToStorage.onClick.AddListener(() => this.SendCommand(new AddItemCommand(1, 1, false)));
-        add2ToStorage.onClick.AddListener(() => this.SendCommand(new AddItemCommand(2, 1, false)));
-        sub1FromBackpack.onClick.AddListener(() => this.SendCommand(new SubItemCommand(1, 1, true)));
-        sub2FromBackpack.onClick.AddListener(() => this.SendCommand(new SubItemCommand(2, 1, true)));
-        sub1FromStorage.onClick.AddListener(() => this.SendCommand(new SubItemCommand(1, 1, false)));
-        sub2FromStorage.onClick.AddListener(() => this.SendCommand(new SubItemCommand(2, 1, false)));
+        add1ToBackpack.onClick.AddListener(() => this.SendCommand(new AddItemCommand(1, 1, true, true)));
+        add2ToBackpack.onClick.AddListener(() => this.SendCommand(new AddItemCommand(2, 1, true, true)));
+        add1ToStorage.onClick.AddListener(() => this.SendCommand(new AddItemCommand(1, 1, false, true)));
+        add2ToStorage.onClick.AddListener(() => this.SendCommand(new AddItemCommand(2, 1, false, true)));
+        sub1FromBackpack.onClick.AddListener(() => this.SendCommand(new SubItemCommand(1, 1, true, true)));
+        sub2FromBackpack.onClick.AddListener(() => this.SendCommand(new SubItemCommand(2, 1, true, true)));
+        sub1FromStorage.onClick.AddListener(() => this.SendCommand(new SubItemCommand(1, 1, false, true)));
+        sub2FromStorage.onClick.AddListener(() => this.SendCommand(new SubItemCommand(2, 1, false, true)));
     }
 
     public IArchitecture GetArchitecture()
