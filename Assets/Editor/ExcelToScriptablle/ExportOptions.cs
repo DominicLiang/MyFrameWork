@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum ExportOptions
 {
-    SoWithSoCollection,
     RowToList,
+    SoWithSoCollection,
     EveryRowToSingleFile,
 }

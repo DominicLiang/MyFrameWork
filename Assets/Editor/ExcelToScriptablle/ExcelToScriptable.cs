@@ -91,8 +91,11 @@ public class ExcelToScriptable : EditorWindow
             EditorGUILayout.BeginHorizontal();
             {
                 var rowToList = "将CSV所有行转换为单个SO里面的List";
+                var SoWithSoCollection = "将CSV每一行都转换为单独的ScriptableObject并附在一个ScriptableObject下";
                 var everyRowToSingleFile = "将CSV每一行都转换为单独的ScriptObject";
-                var note = options == ExportOptions.RowToList ? rowToList : everyRowToSingleFile;
+                var isRowToList = options == ExportOptions.RowToList;
+                var isSoWithSoCollection = options == ExportOptions.SoWithSoCollection;
+                var note = isRowToList ? rowToList : isSoWithSoCollection ? SoWithSoCollection : everyRowToSingleFile;
                 EditorGUILayout.HelpBox(note, MessageType.Info, true);
             }
             EditorGUILayout.EndHorizontal();
