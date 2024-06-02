@@ -1,6 +1,6 @@
 public enum ItemType
 {
-    Item,
+    Expend,
     Equipment,
     Material,
     Special
